@@ -80,10 +80,7 @@ class App extends Component {
       <div className="App">
         <div className="body">
           <div>
-            <h1 className="title">Waders</h1>
-            <p>
-              to get you through the tides
-            </p>
+            <h1 className="title">JKBX</h1>
           </div>
           <div className="album">
             { isFetching ? <AlbumLoading /> : <Album details={album}/>}
