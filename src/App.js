@@ -2,6 +2,8 @@ import React from 'react';
 import { Component } from 'react'
 import './App.css';
 
+require('dotenv').config()
+
 const Album = ({details}) => (
   <div>
     <p>{details.name}</p>
@@ -39,23 +41,30 @@ class App extends Component {
       isFetching: true,
     }));
 
-    const prediction = await fetch('https://tidymodels.org/start/models/urchins.csv', {
-      mode: 'no-cors'
+    console.log(process.env.AWS_KEY);
+    console.log(process.env.AWS_C_KEY);
+
+    const prediction = await fetch('https://ko99ti48gb.execute-api.us-east-2.amazonaws.com/production', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': '',
+      },
+      body: JSON.stringify({
+        message: text
+      })
     })
 
-    let json = await prediction.text()
-
-    console.log(json)
-    json = 'test1'
+    const json = await prediction.json()
 
     this.setState(state => ({
       ...state,
       isFetching: false,
       isLoaded: true,
       album: {
-        name: json,
-        artist: 'test2',
-        release_year: 2020,
+        name: json['album'],
+        artist: json['artist'],
+        release_year: json['release_year'],
       }
     }));
   }
